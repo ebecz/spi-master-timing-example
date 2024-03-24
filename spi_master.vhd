@@ -14,15 +14,23 @@ entity spi_master is
 end spi_master;
 
 architecture rtl of spi_master is
+  signal clk_div : std_logic;
+  signal miso_reg : std_logic;
+  signal mosi_reg : std_logic;
 begin
 
   process(clk)
   begin
 	if rising_edge(clk) then
-		mosi <= miso;
+		clk_div <= not clk_div;
+	end if;
+	if rising_edge(clk_div) then
+		miso_reg <= miso;
+		mosi_reg <= miso_reg;
 		cs <= '1';
 	end if;
-	sclk <= clk;
+	mosi <= mosi_reg;
+	sclk <= clk_div;
   end process;
 
 end rtl;

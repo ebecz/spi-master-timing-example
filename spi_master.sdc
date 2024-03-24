@@ -1,5 +1,6 @@
 create_clock -name sysclk -period 10 [get_ports clk]
-create_generated_clock -name sclk -source [get_ports {clk}] [get_ports {sclk}]
+create_generated_clock -name sysclk_50Mhz -div 2 -source [get_ports {clk}] [get_registers {clk_div}]
+create_generated_clock -name sclk -source [get_pins {clk_div|d}] [get_ports {sclk}]
 
 # MOSI
 set tsu 3
